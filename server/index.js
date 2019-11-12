@@ -110,8 +110,10 @@ app.put('/personal/information/:id' , (req , res)=>{
                 console.log(err , doc)
                 if(!err){
                     User.findOne({'_id': req.params.id} , (err , data)=>{
-                        console.log(data)
+                        res.json({code:200 , 'message':'成功' , ...data._doc });
                     })
+                }else {
+                    res.json({code:400 , 'message':'失败' });
                 }
             } )
         })

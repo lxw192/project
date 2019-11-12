@@ -8,6 +8,7 @@ import { getLoadInfo , updateInformation } from './../store/action/menu'
 import MessageList from './MessageList'
 import InputField from '../components/InputField/InputField'
 import { required , number , mobile , password } from '../components/InputField/validate'
+import { getMd5Password } from '../util/util'
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 class Menus extends React.Component {
@@ -183,6 +184,7 @@ class Menus extends React.Component {
 
 const submitForm = (values, dispatch, props) => {
   console.log(values, dispatch, props)
+  values.password = getMd5Password(values.password)
   dispatch(updateInformation(values))
 }
 const selector = formValueSelector('menu')
