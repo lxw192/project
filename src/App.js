@@ -11,7 +11,6 @@ import { login } from './store/action/register'
 import { getMd5Password } from './util/util'
 import { required , number , mobile , password } from './components/InputField/validate'
 const { TabPane } = Tabs;
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -31,7 +30,8 @@ class App extends React.Component {
   render() {
     const { items = [] } = this.state
     return (
-      <div className={`bg_img`} style={{ width: '100%', height: '100%', background: `url(img/bg.jpg) center` }}>
+      // <div className={`bg_img`} style={{ width: '100%', height: '100%', background: `url(img/bg.jpg) center` }}>
+      <div className={`bg_img`}>
         <div className={`login_page_box_opacity`}></div>
         <div className={`login_page_box`}>
           <Tabs defaultActiveKey="1">
