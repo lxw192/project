@@ -74,15 +74,24 @@ class Menus extends React.Component {
   onCancel=()=>{
     const { change } = this.props;
     change('modalLock', false)
+    change('menuModal', false)
   }
   renderModal(){
     const { modalLock , loginData , myValues } = this.props
     console.log(myValues)
     return (
       <Modal title="修改密码" visible={modalLock} onOk={this.handleOk} onCancel={this.onCancel} cancelText='取消' okText='确认' >
-        <InputField label={`昵称`} needReload={true} validate={[required]} name='name' type='text' placeholder={'请输入昵称'} />
-        <InputField label={`手机号`} needReload={true} validate={[required]} name='phone' type='text' placeholder={'请输入手机号'} disabled={true} />
-        <InputField label={`密码`} needReload={true} validate={[required]} name='password' type='password' placeholder={'请输入密码'} />
+        <InputField label={`昵称`} validate={[required]} name='name' type='text' placeholder={'请输入昵称'} />
+        <InputField label={`手机号`} validate={[required]} name='phone' type='text' placeholder={'请输入手机号'} disabled={true} />
+        <InputField label={`密码`} validate={[required]} name='password' type='password' placeholder={'请输入密码'} />
+      </Modal>
+    )
+  }
+  renderMenuModal(){
+    const { menuModal } = this.props
+    return (
+      <Modal title="欢迎登陆" visible={menuModal} onCancel={this.onCancel} footer={null} >
+        <p>欢迎登陆</p>
       </Modal>
     )
   }
@@ -176,6 +185,9 @@ class Menus extends React.Component {
         {
           this.renderModal()
         }
+        {
+          this.renderMenuModal()
+        }
       </div>
 
     );
@@ -199,6 +211,7 @@ const mapState = (state) => {
     number, loginData,
     myValues: getFormValues('menu')(state),
     modalLock: selector(state , 'modalLock'),
+    menuModal: selector(state , 'menuModal'),
   }
 }
 

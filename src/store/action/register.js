@@ -1,6 +1,7 @@
 import * as types from './../ActionTypes/ActionTypes'
 import axios from 'axios';
 import iStorage from "istorage"
+import { change } from 'redux-form'
 // import {HashRouter ,Router , Route, Link  } from 'react-router-dom';
 import { message, Button } from 'antd';
 
@@ -21,14 +22,13 @@ export function login(data){
                 message.info(data.data.message);
             }else{
                 message.info(data.data.message);
-                console.log()
                 dispatch({
                     type:types.LOGIN,
                     loginData:data.data
                 })
                 window.sessionStorage.setItem('user_id' , data.data._id)
                 window.sessionStorage.setItem('phone' , data.data.phone)
-                // window.location.href = '#/menu/home'
+                dispatch(change('menu' , 'menuModal' , true ))
             }
             return data.data
         })
