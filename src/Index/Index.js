@@ -53,7 +53,7 @@ class Index extends React.Component{
         return (
             <div>
                 <div style={{ textAlign: 'center' }}>
-                    <div style={{width:'50%'}}>
+                    <div>
                         <Calendar dateCellRender={this.dateCellRender.bind(this)} monthCellRender={this.monthCellRender.bind(this)} />
                     </div>
                 </div>
