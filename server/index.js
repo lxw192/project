@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 var path = require("path")
 var url = require('url')
+var fs = require("fs");
+var multer  = require('multer');
 const DB_URL = 'mongodb://127.0.0.1:27017/haha'
 // 连接数据库
 mongoose.connect(DB_URL , { useNewUrlParser: true } )      
@@ -36,6 +38,23 @@ app.use(express.static( "../src/static"))
     return postData
 }
 
+app.post('/file_upload',function (req, res) {
+    fs.readFile( req.files[0].path, function (err, data) {
+        var des_file = __dirname + "/img/" + req.files[0].originalname;
+        console.log(des_file)
+        fs.writeFile(des_file, data, function (err) {
+            if(err){
+                console.log( err );
+            }else{
+               var response = {
+                    message:'文件上传成功',
+                    filename:req.files[0].originalname
+                };
+            }
+            res.send( JSON.stringify( response ) );
+        });
+    });
+})
 
 // 注册接口
 app.post('/register', (req, res) => {
