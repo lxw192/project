@@ -39,7 +39,7 @@ async function getPostData(req) {
 
 
 
-var upload = multer({ dest: 'src/static/img/'}) // 文件储存路径
+var upload = multer({ dest: './../src/static/img/'}) // 文件储存路径
 app.post('/uploader', upload.single('avatar'), function(req, res, next) {
     console.log(req.file)
     // const newname=req.file.path+path.parse(req.file.originalname).ext
