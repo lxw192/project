@@ -9,7 +9,9 @@ export function register(data){
     console.log(data)
     return dispatch =>{
         axios.post('./register' , data ).then(data=>{
-            if(data.data.code==200){  
+            if(data.data.code&&data.data.code>300){  
+                message.info(data.data.message); 
+            }else{
                 window.location.href = '/'
             }
         })

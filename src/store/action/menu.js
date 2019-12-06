@@ -24,3 +24,18 @@ export function updateInformation(values){
         })
     }
 } 
+export function file_upload(values){
+    console.log(values)
+    return dispatch =>{
+        return  axios.post(`/uploader` , values ).then(data => {
+            console.log(data)
+        })
+        // let xhr = new XMLHttpRequest();
+        // xhr.open('POST', 'http://localhost:8001/uploader');
+        // xhr.onload = function () {
+        //     console.log(xhr);
+        // }
+        // xhr.send(values); 
+       
+    }
+} 
