@@ -28,14 +28,8 @@ export function file_upload(values){
     console.log(values)
     return dispatch =>{
         return  axios.post(`/uploader` , values ).then(data => {
-            console.log(data)
+            console.log(data.data.url)
+            dispatch(change('home','url' , data.data.url))
         })
-        // let xhr = new XMLHttpRequest();
-        // xhr.open('POST', 'http://localhost:8001/uploader');
-        // xhr.onload = function () {
-        //     console.log(xhr);
-        // }
-        // xhr.send(values); 
-       
     }
 } 

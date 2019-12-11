@@ -9,6 +9,7 @@ import MessageList from './MessageList'
 import InputField from '../components/InputField/InputField'
 import { required , number , mobile , password } from '../components/InputField/validate'
 import { getMd5Password } from '../util/util'
+import MaskProgress from '../components/MaskProgress/MaskProgress'
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 class Menus extends React.Component {
@@ -187,6 +188,9 @@ class Menus extends React.Component {
         }
         {
           this.renderMenuModal()
+        }
+        {
+          <MaskProgress />
         }
       </div>
 

@@ -42,14 +42,14 @@ async function getPostData(req) {
 var upload = multer({ dest: path.join(__dirname ,'/../src/static/img/' ) }) // 文件储存路径
 app.post('/uploader', upload.single('avatar'), function(req, res, next) {
     console.log(req.file)
-    // const newname=req.file.path+path.parse(req.file.originalname).ext
-    const newname=req.file.destination+req.file.originalname
+    const newname=req.file.path+path.parse(req.file.originalname).ext
+    // const newname=req.file.destination+req.file.originalname
     // const newname=req.file.destination+new Date().getTime() + path.parse(req.file.originalname).ext
     fs.rename(req.file.path,newname,function(err){
         if(err){
             res.send({code:400, message:'上传失败'})
         }else{
-            res.send({code:200, url:req.file.originalname})
+            res.send({code:200, url:req.file.filename+path.parse(req.file.originalname).ext})
         }
     })
 });

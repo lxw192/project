@@ -10,6 +10,9 @@ import InputField from './components/InputField/InputField'
 import { login } from './store/action/register'
 import { getMd5Password } from './util/util'
 import { required , number , mobile , password } from './components/InputField/validate'
+
+
+
 const { TabPane } = Tabs;
 class App extends React.Component {
   constructor(props) {
@@ -45,7 +48,6 @@ class App extends React.Component {
             </TabPane>
           </Tabs>
         </div>
-
       </div>
     );
   }

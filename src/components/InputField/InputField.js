@@ -1,8 +1,7 @@
 import React from 'react';
-import { Input, Form } from 'antd';
+import { Input, Form ,Checkbox} from 'antd';
 import { Field } from 'redux-form';
 import { required, maxLength, number, email, mobile, startCharacter, isTelphone, } from './validate';
-
 
 
 const FormItem = Form.Item;
@@ -10,7 +9,7 @@ const _formItemLayouts = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
   };
-  
+ 
 class InputField extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +17,10 @@ class InputField extends React.Component {
             needReload : false
         }
     }
+    static defaultProps = {
+        options :[],
+        defaultValue :[],
+      }
     componentWillReceiveProps(nextProps){
         const { needReload } = nextProps
         if (needReload && !this.props.needReload) {
@@ -51,24 +54,41 @@ class InputField extends React.Component {
         }
   }
     renderField = (field) => {
-        const { formItemLayout, placeholder, allowClear, disabled, type, inputStyle, label, validate, formFiled } = this.props
-        return (
-            <FormItem
-                {...(formItemLayout ?formItemLayout :_formItemLayouts)}
-                label={label}
-                required={formFiled ? formFiled.is_required : this.validateRequired(validate)} 
-                help={this.showErrMessage(field)}
-                validateStatus={this.validateStatus(field)}  >
-                <Input {...field.input} value ={ field.input.value ? field.input.value : '' } allowClear={allowClear} disabled={disabled} placeholder={placeholder} type={type} style={inputStyle}
-                    onChange={(value) => {
-                        if (this.props.onChange) {
-                            this.props.onChange(value, field);
-                        } else {
-                            field.input.onChange(value);
-                        }
+        const { formItemLayout, placeholder, allowClear, disabled, type, inputStyle, label, validate, formFiled , options ,defaultValue  } = this.props
+        console.log(type)
+
+        if (type == 'checkbox') {
+            return (
+                <FormItem
+                    {...(formItemLayout ? formItemLayout : _formItemLayouts)}
+                    label={label}
+                    required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
+                    help={this.showErrMessage(field)}
+                    validateStatus={this.validateStatus(field)}  >
+                    <Checkbox.Group options={options} defaultValue={defaultValue ? defaultValue : []} onChange={(value)=>{
+                        this.props.onChange ? this.props.onChange(value, field) : field.input.onChange(value);
                     }} />
-            </FormItem>
-        )
+                </FormItem>
+            )
+        } else {
+            return (
+                <FormItem
+                    {...(formItemLayout ? formItemLayout : _formItemLayouts)}
+                    label={label}
+                    required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
+                    help={this.showErrMessage(field)}
+                    validateStatus={this.validateStatus(field)}  >
+                    <Input {...field.input} value={field.input.value ? field.input.value : ''} allowClear={allowClear} disabled={disabled} placeholder={placeholder} type={type} style={inputStyle}
+                        onChange={(value) => {
+                            if (this.props.onChange) {
+                                this.props.onChange(value, field);
+                            } else {
+                                field.input.onChange(value);
+                            }
+                        }} />
+                </FormItem>
+            )
+        }
 
     }
     render() {

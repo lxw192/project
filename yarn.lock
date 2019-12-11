@@ -7734,6 +7734,11 @@ pkg-up@2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+plupload@^2.3.6:
+  version "2.3.6"
+  resolved "https://registry.npm.taobao.org/plupload/download/plupload-2.3.6.tgz#2608acf735d5e8db83248724d78d81757bb43866"
+  integrity sha1-Jgis9zXV6NuDJIck142BdXu0OGY=
+
 pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/pn/download/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
@@ -9605,6 +9610,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+reqwest@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npm.taobao.org/reqwest/download/reqwest-2.0.5.tgz#00fb15ac4918c419ca82b43f24c78882e66039a1"
+  integrity sha1-APsVrEkYxBnKgrQ/JMeIguZgOaE=
 
 resize-observer-polyfill@^1.5.0, resize-observer-polyfill@^1.5.1:
   version "1.5.1"
