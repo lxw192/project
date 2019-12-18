@@ -59,16 +59,16 @@ class InputField extends React.Component {
 
         if (type == 'checkbox') {
             return (
-                <FormItem
-                    {...(formItemLayout ? formItemLayout : _formItemLayouts)}
-                    label={label}
-                    required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
-                    help={this.showErrMessage(field)}
-                    validateStatus={this.validateStatus(field)}  >
-                    <Checkbox.Group options={options} defaultValue={defaultValue ? defaultValue : []} onChange={(value)=>{
-                        this.props.onChange ? this.props.onChange(value, field) : field.input.onChange(value);
-                    }} />
-                </FormItem>
+                    <FormItem
+                        {...(formItemLayout ? formItemLayout : _formItemLayouts)}
+                        label={label}
+                        required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
+                        help={this.showErrMessage(field)}
+                        validateStatus={this.validateStatus(field)}  >
+                        <Checkbox.Group options={options} defaultValue={defaultValue ? defaultValue : []} onChange={(value) => {
+                            this.props.onChange ? this.props.onChange(value, field) : field.input.onChange(value);
+                        }} />
+                    </FormItem>
             )
         } else {
             return (

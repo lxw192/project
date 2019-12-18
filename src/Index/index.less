@@ -1,0 +1,62 @@
+.housing_information{
+    text-align: left;
+    min-width: 1000px;
+    min-height: 700px;
+    background-color: #fff;
+    .search{
+        margin-top: 30px;
+        border-radius: 4px;
+    }
+    .list{
+        box-sizing: border-box;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0 20px;
+        padding:20px;
+        img{
+            width: 100%;
+        }
+        >div{
+            float: left;
+            margin-right: 20px;
+        }
+        >div:nth-child(1){
+            overflow: hidden;
+            width: 200px;
+        }
+        >div:nth-child(2){
+            width: 280px;
+            p{
+                overflow: hidden;
+                text-overflow:ellipsis;
+                -o-text-overflow:ellipsis;
+                white-space:nowrap;
+                font-size: 16px;
+                font-weight: 700;
+                color: rgba(78,78,78)
+            }
+            img{
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                vertical-align: baseline;
+                position: relative;
+                top:3px;
+            }
+        }
+        >div:nth-child(3){
+            float: right;
+            margin-top: 40px;
+            text-align: center;
+            .price{
+                color:red;
+                font-weight: 700;
+            }
+            .univalence{
+                color:rgb(78, 78, 78);
+                font-size: 12px;
+            }
+        }
+    }
+}

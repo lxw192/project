@@ -7,10 +7,10 @@ var fs = require("fs");
 const DB_URL = 'mongodb://127.0.0.1:27017/haha'
 var bodyParser = require('body-parser');
 
-
 // const uploadImg = require('./img')
 // 连接数据库
 mongoose.connect(DB_URL, { useNewUrlParser: true })
+//用户表
 const User = mongoose.model('user', new mongoose.Schema({
     phone: { type: String, required: true },
     password: { type: String, required: true },
@@ -22,6 +22,13 @@ const Customer = mongoose.model('customer', new mongoose.Schema({
     password: { type: String, required: true },
 })
 )
+
+//房子列表 表
+const House_list = mongoose.model('house_list', new mongoose.Schema({
+    price: { type: Number, required: true },
+    univalence: { type: Number, required: true },
+}))
+
 
 //新建app
 const app = express()
@@ -40,6 +47,7 @@ async function getPostData(req) {
 
 
 var upload = multer({ dest: path.join(__dirname ,'/../src/static/img/' ) }) // 文件储存路径
+
 app.post('/uploader', upload.single('avatar'), function(req, res, next) {
     console.log(req.file)
     const newname=req.file.path+path.parse(req.file.originalname).ext
@@ -149,17 +157,6 @@ app.get('/add', (req, res) => {
         }
     })
 })
-app.get('/data', (req, res) => {
-    User.find({}, (err, data) => {
-        console.log(data)
-        return res.send(data)
-    })
-})
-app.get('/datas', (req, res) => {
-    Customer.find({}, (err, data) => {
-        return res.send(data)
-    })
-})
 app.get('/delete', (req, res) => {
     User.remove({ age: 26 }, (err, data) => {
         console.log(data)
@@ -170,23 +167,6 @@ app.get('/update', (req, res) => {
     User.update({ age: 30 }, { '$set': { age: 25 } }, (err, data) => {
         return res.send(data)
     })
-})
-app.post('/dd', (req, res) => {
-    if (req.method == 'POST') {
-        var postData = "";
-        // 数据块接收中
-        req.on('data', function (postDataChunk) {
-            postData += postDataChunk;
-        });
-        req.on("end", function () {
-            console.log('数据接收完毕', postData, JSON.parse(postData).name);
-            User.find({ name: JSON.parse(postData).name }, (err, doc) => {
-                console.log(err, doc)
-            })
-        });
-        // res.send({a:123})
-    }
-
 })
 app.post('/register', (req, res) => {
     if (req.method == 'POST') {
@@ -205,6 +185,63 @@ app.post('/register', (req, res) => {
     }
 
 })
+
+
+app.get('/house_list', (req, res) => {
+    // var arg = url.parse(req.url, true).query
+    // console.log(req.url ,arg )
+    // console.log(a)
+    // House_list.find((err, doc) => {
+    //     if (!err) {
+    //         console.log(doc)
+    //         res.send({code:200 , data:doc})
+    //     }
+    // })
+    // let queryResult= House_list.find()
+    // let total= House_list.find().count()
+    // queryResult.exec((err, value) => {
+    //     if (err) {
+    //         reject(err);
+    //     } else {
+    //         console.log(value)
+    //     }
+    // })
+    // total.exec((err, value) => {
+    //     if (err) {
+    //         reject(err);
+    //     } else {
+    //         console.log(value)
+    //     }
+    // })
+
+    // House_list.find().limit(7).skip(5)
+    let arr = House_list.aggregate({
+        facet:{
+            'list':[
+                {$skip:0},
+                {$limit:10}
+            ],
+            'total':[
+                {$count:'total'}
+            ]
+        }
+    })
+    console.log(arr)
+
+})
+app.get('/creat_house_list', (req, res) => {
+    House_list.create({'price':200 ,'univalence':10}, (err, doc) => {
+        console.log('err', err, 'doc', doc)
+        if (!err) {
+            console.log(doc)
+            res.send({})
+        }
+    })
+
+})
+
+
+
 //监听事件 及 监听端口
 app.listen(8001, (err) => {
     if (!err) {
