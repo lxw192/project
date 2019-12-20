@@ -135,6 +135,7 @@ class Index1 extends React.Component {
             <div className={`housing_information`}>
                 {/* <input id="file" type="file" name="image" size="50" onChange={this.onChange}/>
                {url ? <img src={`./img/${url}`} /> : null} */}
+               <img src="./img/1.jpg" alt=""/>
                 <SearchForm formName='home_form' enableKeys={['keysearch']} search={this.searchGrid} ref="home_ref">
                     <div className={`search`}>
                         <Row>
