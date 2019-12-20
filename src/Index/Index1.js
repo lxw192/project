@@ -195,7 +195,7 @@ class Index1 extends React.Component {
                                             <div className={'list'}>
                                                 <div>
                                                     {console.log(`${__dirname}img/${item.img_url}`)}
-                                                    <img src={`${__dirname}img/${item.img_url}`} alt="" />
+                                                    <img src={`img/${item.img_url}`} alt="" />
                                                 </div>
                                                 <div>
                                                     <p title={`${str.length > 18 ? str : ''}`}>{str}</p>
