@@ -32,7 +32,8 @@ const House_list = mongoose.model('house_list', new mongoose.Schema({
 
 //新建app
 const app = express()
-app.use(express.static("../src/static"))
+// app.use(express.static("../src/static"))
+app.use(express.static(path.join(__dirname, '/../src/static')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
