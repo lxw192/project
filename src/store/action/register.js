@@ -6,7 +6,6 @@ import { change } from 'redux-form'
 import { message, Button } from 'antd';
 
 export function register(data){
-    console.log(data)
     return dispatch =>{
         axios.post('./register' , data ).then(data=>{
             if(data.data.code&&data.data.code>300){  

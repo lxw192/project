@@ -46,18 +46,18 @@ async function getPostData(req) {
 
 
 
-var upload = multer({ dest: path.join(__dirname ,'/../src/static/img/' ) }) // 文件储存路径
+var upload = multer({ dest: path.join(__dirname, '/../src/static/img/') }) // 文件储存路径
 
-app.post('/uploader', upload.single('avatar'), function(req, res, next) {
+app.post('/uploader', upload.single('avatar'), function (req, res, next) {
     console.log(req.file)
-    const newname=req.file.path+path.parse(req.file.originalname).ext
+    const newname = req.file.path + path.parse(req.file.originalname).ext
     // const newname=req.file.destination+req.file.originalname
     // const newname=req.file.destination+new Date().getTime() + path.parse(req.file.originalname).ext
-    fs.rename(req.file.path,newname,function(err){
-        if(err){
-            res.send({code:400, message:'上传失败'})
-        }else{
-            res.send({code:200, url:req.file.filename+path.parse(req.file.originalname).ext})
+    fs.rename(req.file.path, newname, function (err) {
+        if (err) {
+            res.send({ code: 400, message: '上传失败' })
+        } else {
+            res.send({ code: 200, url: req.file.filename + path.parse(req.file.originalname).ext })
         }
     })
 });
@@ -66,8 +66,8 @@ app.post('/uploader', upload.single('avatar'), function(req, res, next) {
 
 
 app.post('/file_upload', function (req, res) {
-    fs.readFile('./2.jpg' , (err,  data)=>{
-        console.log( 'err' , err , ' data' ,  data.toString()) 
+    fs.readFile('./2.jpg', (err, data) => {
+        console.log('err', err, ' data', data.toString())
     })
 })
 
@@ -185,53 +185,43 @@ app.post('/register', (req, res) => {
     }
 
 })
-
-
-app.get('/house_list', (req, res) => {
-    // var arg = url.parse(req.url, true).query
-    // console.log(req.url ,arg )
-    // console.log(a)
-    // House_list.find((err, doc) => {
-    //     if (!err) {
-    //         console.log(doc)
-    //         res.send({code:200 , data:doc})
-    //     }
-    // })
-    // let queryResult= House_list.find()
-    // let total= House_list.find().count()
-    // queryResult.exec((err, value) => {
-    //     if (err) {
-    //         reject(err);
-    //     } else {
-    //         console.log(value)
-    //     }
-    // })
-    // total.exec((err, value) => {
-    //     if (err) {
-    //         reject(err);
-    //     } else {
-    //         console.log(value)
-    //     }
-    // })
-
-    // House_list.find().limit(7).skip(5)
-    let arr = House_list.aggregate({
-        facet:{
-            'list':[
-                {$skip:0},
-                {$limit:10}
-            ],
-            'total':[
-                {$count:'total'}
-            ]
+async function getData(req ,res , Schema ){
+    let allObj = url.parse(req.url, true).query
+    var offset = Number(url.parse(req.url, true).query.offset)
+    let obj = {}, totals = 0 , result={};
+    for (let item in allObj) {
+        if (item != 'offset' && item != 'limit') {
+            obj[item] = url.parse(req.url, true).query[item]
+        }
+    }
+    await Schema.aggregate([
+        { $match: { ...obj } },
+        { $group: { _id: null, 'total': { $sum: 1 } } },
+    ]).exec((err, values) => {
+        if (!err) {
+            totals = values && values.length > 0 ? values[0].total : 0
+        } else {
+            totals = 0
         }
     })
-    console.log(arr)
+    result = await Schema.aggregate([
+        { $match: { ...obj } },
+        { $skip: offset },
+        { $limit: 10 },
+    ])
+    return await  new Promise((resolve, reject)=>{
+       resolve({data:result , totals: totals , code:200 })
+       reject({data:[] , totals: 0 , code:400 })
+    })
+}
 
+app.get('/house_list', (req, res) => {
+  getData(req, res ,House_list ).then(data=>{
+      res.send(data)
+  })
 })
 app.get('/creat_house_list', (req, res) => {
-    House_list.create({'price':200 ,'univalence':10}, (err, doc) => {
-        console.log('err', err, 'doc', doc)
+    House_list.create({ 'price': 200, 'univalence': 10 }, (err, doc) => {
         if (!err) {
             console.log(doc)
             res.send({})

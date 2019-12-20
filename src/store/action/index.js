@@ -6,18 +6,17 @@ import { reduxForm, submit, getFormValues, Form , formValueSelector , change } f
 export function get_house_list(values){
     return dispatch =>{
         return axios.get('/house_list'+`${values?values:''}`).then(data => {
-            console.log(data)
             dispatch({
                 type:types.GET_HOUSE_LIST,
                 house_list:data.data.data
             })
+            dispatch(change('home_form' , 'total_count' , data.data.totals))
         })
     }
 }
 export function creat_house_list(values){
     return dispatch =>{
         return axios.get('/creat_house_list').then(data => {
-            console.log(data)
         })
     }
 }

@@ -4,11 +4,13 @@ import './index.less'
 import moment from 'moment'
 import { file_upload } from '../store/action/menu'
 import InputField from '../components/InputField/InputField'
-import { reduxForm, submit, getFormValues, Form, formValueSelector } from 'redux-form'
+import { reduxForm, submit, getFormValues, Form, formValueSelector, change } from 'redux-form'
+import PaginationWrop from '../components/PaginationWrop/PaginationWrop'
+import SearchForm from '../components/SearchForm/SearchForm'
 import { Tabs, Button, Icon, Col, Row } from 'antd';
 import { connect } from 'react-redux'
 import $ from 'jquery'
-import { get_house_list , creat_house_list } from './../store/action/index'
+import { get_house_list, creat_house_list } from './../store/action/index'
 let areaData = [
     { label: '通州', value: '通州' },
     { label: '大兴', value: '大兴' },
@@ -91,10 +93,12 @@ class Index1 extends React.Component {
 
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         const { dispatch } = this.props
-        dispatch(get_house_list('?offset=0&limit=10'))
-        // dispatch(creat_house_list())
+        // dispatch(get_house_list('?offset=0&limit=10'))
+        setTimeout(()=>{
+            dispatch(change('home_form' , 'aaa' , 0))
+        })
     }
     onChange = (value, files) => {
         const { dispatch } = this.props
@@ -110,6 +114,17 @@ class Index1 extends React.Component {
     fileCallBack = () => {
 
     }
+    searchGrid = (values) => {
+        const { dispatch } = this.props;
+        console.log(values)
+        let parmas = []
+        parmas.push("?offset=" + values.offset);
+        parmas.push("&limit=" + values.limit);
+        if(values.area)parmas.push("&area=" + values.area);
+        if(values.orientation)parmas.push("&orientation=" + values.orientation);
+
+        dispatch(get_house_list(parmas.join('')))
+    }
     render() {
         const { house_list } = this.props;
         console.log(house_list)
@@ -120,102 +135,87 @@ class Index1 extends React.Component {
             <div className={`housing_information`}>
                 {/* <input id="file" type="file" name="image" size="50" onChange={this.onChange}/>
                {url ? <img src={`./img/${url}`} /> : null} */}
-               <div className={`search`}>
-               <Row>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`位置`} name='area' type='checkbox' options={areaData} placeholder={'请选择位置'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`售价`} name='rate' type='checkbox' options={rateData} placeholder={'请选择售价'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`面积`} name='acreage' type='checkbox' options={acreageData} placeholder={'请选择面积'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`朝向`} name='orientation' type='checkbox' options={orientationData} placeholder={'请选择朝向'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`楼层`} name='floor' type='checkbox' options={floorData} placeholder={'请选择楼层'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`楼龄`} name='tower_age' type='checkbox' options={tower_age_Data} placeholder={'请选择楼龄'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`装修`} name='decoration' type='checkbox' options={decorationData} placeholder={'请选择装修'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`用途`} name='purpose' type='checkbox' options={purposeData} placeholder={'请选择用途'} />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ height: '30px' }}>
-                            <InputField formItemLayout={formItemLayout} label={`权属`} name='ownership' type='checkbox' options={ownershipData} placeholder={'请选择权属'} />
-                        </div>
-                    </Col>
+                <SearchForm formName='home_form' enableKeys={['keysearch']} search={this.searchGrid} ref="home_ref">
+                    <div className={`search`}>
+                        <Row>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`位置`} name='area' type='radio' options={areaData} placeholder={'请选择位置'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`售价`} name='rate' type='radio' options={rateData} placeholder={'请选择售价'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`面积`} name='acreage' type='radio' options={acreageData} placeholder={'请选择面积'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`朝向`} name='orientation' type='radio' options={orientationData} placeholder={'请选择朝向'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`楼层`} name='floor' type='radio' options={floorData} placeholder={'请选择楼层'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`楼龄`} name='tower_age' type='radio' options={tower_age_Data} placeholder={'请选择楼龄'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`装修`} name='decoration' type='radio' options={decorationData} placeholder={'请选择装修'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`用途`} name='purpose' type='radio' options={purposeData} placeholder={'请选择用途'} />
+                                </div>
+                            </Col>
+                            <Col>
+                                <div style={{ height: '30px' }}>
+                                    <InputField formItemLayout={formItemLayout} label={`权属`} name='ownership' type='radio' options={ownershipData} placeholder={'请选择权属'} />
+                                </div>
+                            </Col>
 
-                </Row>
-               </div>
-                <div className={`housing_information_list`}>
-                    <Row>
-                        {
-                            house_list&&house_list.length>0&&house_list.map((item , index)=>{
-                                return (
-                                    <Col key={index} span={12}>
-                                    <div className={'list'}>
-                                        <div>
-                                            <img src={`./img/${item.img_url}`} alt="" />
-                                        </div>
-                                        <div>
-                                            <p title={`${str.length>18 ? str : ''}`}>{str}</p>
-                                            <div>地址</div>
-                                            <div><img src={'img/icon/house.png'} />具体信息</div>
-                                            <div><img src={'img/icon/time.png'}/>发布时间</div>
-                                        </div>
-                                        <div>
-                                            <div className={`price`}>252 万</div>
-                                            <div className={`univalence`}>单价59986元/平米</div>
-                                        </div>
-                                    </div>
-                                </Col>
-                                )
-                            })
-                        }
-                       
-                        {/* <Col span={12}>
-                            <div className={'list'}>
-                                <div>
-                                    <img src={`./img/${'2.jpg'}`} alt="" />
-                                </div>
-                                <div>
-                                    <p title={`${str.length>18 ? str : ''}`}>{str}</p>
-                                    <div>地址</div>
-                                    <div><img src={'img/icon/house.png'} />具体信息</div>
-                                    <div><img src={'img/icon/time.png'}/>发布时间</div>
-                                </div>
-                                <div>
-                                    <div className={`price`}>252 万</div>
-                                    <div className={`univalence`}>单价59986元/平米</div>
-                                </div>
-                            </div>
-                        </Col> */}
-                    </Row>
+                        </Row>
+                    </div>
+                    <div className={`housing_information_list`}>
+                        <Row>
+                            {
+                                house_list && house_list.length > 0 && house_list.map((item, index) => {
+                                    return (
+                                        <Col key={index} span={12}>
+                                            <div className={'list'}>
+                                                <div>
+                                                    <img src={`./img/${item.img_url}`} alt="" />
+                                                </div>
+                                                <div>
+                                                    <p title={`${str.length > 18 ? str : ''}`}>{str}</p>
+                                                    <div>地址</div>
+                                                    <div><img src={'img/icon/house.png'} />具体信息</div>
+                                                    <div><img src={'img/icon/time.png'} />发布时间</div>
+                                                </div>
+                                                <div>
+                                                    <div className={`price`}>252 万</div>
+                                                    <div className={`univalence`}>单价59986元/平米</div>
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    )
+                                })
+                            }
+                        </Row>
+                        <PaginationWrop formName='home_form' onChange={this.searchGrid}></PaginationWrop>
+                    </div>
+                </SearchForm>
 
-                </div>
             </div >
         )
     }
@@ -232,7 +232,7 @@ Index1 = reduxForm({
 })(Index1)
 
 const mapState = (state) => {
-    const { home:{house_list} } = state
+    const { home: { house_list } } = state
     return {
         house_list,
         url: selector(state, 'url')

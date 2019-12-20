@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Form ,Checkbox} from 'antd';
+import { Input, Form ,Checkbox , Radio } from 'antd';
 import { Field } from 'redux-form';
 import { required, maxLength, number, email, mobile, startCharacter, isTelphone, } from './validate';
 
@@ -14,7 +14,8 @@ class InputField extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            needReload : false
+            needReload : false,
+            value:''
         }
     }
     static defaultProps = {
@@ -70,7 +71,36 @@ class InputField extends React.Component {
                         }} />
                     </FormItem>
             )
-        } else {
+        } else if(type == 'radio'){
+            return (
+                <FormItem
+                    {...(formItemLayout ? formItemLayout : _formItemLayouts)}
+                    label={label}
+                    required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
+                    help={this.showErrMessage(field)}
+                    validateStatus={this.validateStatus(field)}  >
+                        <Radio.Group onChange={
+                            (val) => {
+                                this.setState({
+                                    value: val.target.value
+                                })
+                                if (this.props.onChange) {
+                                    this.props.onChange(val.target.value, field);
+                                } else {
+                                    field.input.onChange(val.target.value);
+                                }
+                            }} value={this.state.value}>
+                            {
+                                options.map((item , index)=>{
+                                    return (
+                                        <Radio key={index} value={item.value}>{item.value}</Radio>
+                                    )
+                                })
+                            }
+                        </Radio.Group>
+                </FormItem>
+        )
+        }else {
             return (
                 <FormItem
                     {...(formItemLayout ? formItemLayout : _formItemLayouts)}

@@ -13,7 +13,6 @@ export function getLoadInfo(values){
     }
 }
 export function updateInformation(values){
-    console.log(values)
     return dispatch =>{
         return axios.put(`/personal/information/${values._id}` ,{...values} ).then(data => {
             dispatch(change('menu' , 'modalLock' , false ))
@@ -25,10 +24,8 @@ export function updateInformation(values){
     }
 } 
 export function file_upload(values){
-    console.log(values)
     return dispatch =>{
         return  axios.post(`/uploader` , values ).then(data => {
-            console.log(data.data.url)
             dispatch(change('home','url' , data.data.url))
         })
     }
