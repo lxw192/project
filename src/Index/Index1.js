@@ -135,7 +135,6 @@ class Index1 extends React.Component {
             <div className={`housing_information`}>
                 {/* <input id="file" type="file" name="image" size="50" onChange={this.onChange}/>
                {url ? <img src={`./img/${url}`} /> : null} */}
-               <img src="./img/1.jpg" alt=""/>
                 <SearchForm formName='home_form' enableKeys={['keysearch']} search={this.searchGrid} ref="home_ref">
                     <div className={`search`}>
                         <Row>
@@ -195,13 +194,14 @@ class Index1 extends React.Component {
                                         <Col key={index} span={12}>
                                             <div className={'list'}>
                                                 <div>
-                                                    <img src={`./img/${item.img_url}`} alt="" />
+                                                    {console.log(`${__dirname}img/${item.img_url}`)}
+                                                    <img src={`${__dirname}img/${item.img_url}`} alt="" />
                                                 </div>
                                                 <div>
                                                     <p title={`${str.length > 18 ? str : ''}`}>{str}</p>
                                                     <div>地址</div>
-                                                    <div><img src={'img/icon/house.png'} />具体信息</div>
-                                                    <div><img src={'img/icon/time.png'} />发布时间</div>
+                                                    <div><img src={`${__dirname}img/icon/house.png`} />具体信息</div>
+                                                    <div><img src={`${__dirname}img/icon/time.png`} />发布时间</div>
                                                 </div>
                                                 <div>
                                                     <div className={`price`}>252 万</div>
