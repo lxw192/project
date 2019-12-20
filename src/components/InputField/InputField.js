@@ -55,7 +55,7 @@ class InputField extends React.Component {
         }
   }
     renderField = (field) => {
-        const { formItemLayout, placeholder, allowClear, disabled, type, inputStyle, label, validate, formFiled , options ,defaultValue  } = this.props
+        const { formItemLayout, placeholder, allowClear, disabled, type, inputStyle, label, validate, formFiled , options ,defaultValue , defaultValues  } = this.props
         console.log(type)
 
         if (type == 'checkbox') {
@@ -72,6 +72,7 @@ class InputField extends React.Component {
                     </FormItem>
             )
         } else if(type == 'radio'){
+            console.log(defaultValues , options)
             return (
                 <FormItem
                     {...(formItemLayout ? formItemLayout : _formItemLayouts)}
@@ -89,11 +90,15 @@ class InputField extends React.Component {
                                 } else {
                                     field.input.onChange(val.target.value);
                                 }
-                            }} value={this.state.value}>
+                            }}
+                            defaultValue={defaultValues}
+                            value={ this.state.value ? this.state.value : defaultValues }
+                            >
                             {
                                 options.map((item , index)=>{
+                                    console.log(item.value)
                                     return (
-                                        <Radio key={index} value={item.value}>{item.value}</Radio>
+                                        <Radio.Button value={item.value}>{item.value}</Radio.Button>
                                     )
                                 })
                             }

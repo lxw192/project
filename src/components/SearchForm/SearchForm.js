@@ -158,7 +158,7 @@ export default class SearchFormFactory extends React.Component {
       destroyOnUnmount: false,
       forceUnregisterOnUnmount: true
     })(SearchForm);
-    MySearchForm = connect(mapState)(MySearchForm);
+    MySearchForm = connect(mapState , null , null , {forwardRef:true})(MySearchForm);
 
 
 
@@ -171,6 +171,7 @@ export default class SearchFormFactory extends React.Component {
   componentWillUnmount() {
   }
   searchGrid() {
+    console.log(this , 'this.refs',this.refs)
     const { mySearchList } = this.refs;
     if (mySearchList.getWrappedInstance().refs && mySearchList.getWrappedInstance().refs.wrapped) {
       mySearchList.getWrappedInstance().refs.wrapped.refs.wrappedInstance.refs.wrapped.searchList();
@@ -179,13 +180,15 @@ export default class SearchFormFactory extends React.Component {
     }
   }
   changeValues(values) {
+    console.log(this , 'this.refs',this.refs)
     const { mySearchList } = this.refs;
-    console.log('mySearchList', mySearchList);
-    if (mySearchList.getWrappedInstance().refs && mySearchList.getWrappedInstance().refs.wrapped) {
-      mySearchList.getWrappedInstance().refs.wrapped.refs.wrappedInstance.refs.wrapped.changeValues(values);
-    } else {
-      mySearchList.getWrappedInstance().ref.getWrappedInstance().wrapped.changeValues(values);
-    }
+    console.log('mySearchList', mySearchList.wrappedInstance.changeValues );
+    // if (mySearchList.wrappedInstance().refs && mySearchList.getWrappedInstance().refs.wrapped) {
+    //   mySearchList.wrappedInstance().refs.wrapped.refs.wrappedInstance.refs.wrapped.changeValues(values);
+    // } else {
+    //   mySearchList.wrappedInstance().ref.getWrappedInstance().wrapped.changeValues(values);
+    // }
+    mySearchList.wrappedInstance.changeValues(values)
   }
   render() {
     const { MyForm } = this.state;

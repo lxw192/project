@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import $ from 'jquery'
 import { get_house_list, creat_house_list } from './../store/action/index'
 let areaData = [
+    { label: '不限', value: '不限' },
     { label: '通州', value: '通州' },
     { label: '大兴', value: '大兴' },
     { label: '房山', value: '房山' },
@@ -28,6 +29,7 @@ let areaData = [
     { label: '平谷', value: '平谷' },
 ]
 let rateData = [
+    { label: '不限', value: '不限' },
     { label: '40~70万', value: '40~70' },
     { label: '70~100万', value: '70~100' },
     { label: '100~130万', value: '100~130' },
@@ -37,6 +39,7 @@ let rateData = [
     { label: '250万以上', value: '250+' },
 ]
 let acreageData = [
+    { label: '不限', value: '不限' },
     { label: '50~70㎡', value: '50~70' },
     { label: '70~90㎡', value: '70~90' },
     { label: '90~110㎡', value: '90~110' },
@@ -46,18 +49,21 @@ let acreageData = [
     { label: '180㎡以上', value: '180+' },
 ]
 let orientationData = [
+    { label: '不限', value: '不限' },
     { label: '东', value: '东' },
     { label: '南', value: '南' },
     { label: '西', value: '西' },
     { label: '北', value: '北' },
 ]
 let floorData = [
+    { label: '不限', value: '不限' },
     { label: '底层', value: '底层' },
     { label: '中层', value: '中层' },
     { label: '高层', value: '高层' },
-    { label: '顶楼', value: '顶楼' },
+    { label: '顶层', value: '顶层' },
 ]
 let tower_age_Data = [
+    { label: '不限', value: '不限' },
     { label: '5年', value: '5' },
     { label: '10年', value: '10' },
     { label: '15年', value: '15' },
@@ -65,11 +71,13 @@ let tower_age_Data = [
     { label: '20以上', value: '20+' },
 ]
 let decorationData = [
+    { label: '不限', value: '不限' },
     { label: '精装修', value: '精装修' },
     { label: '简装修', value: '简装修' },
     { label: '毛坯房', value: '毛坯房' },
 ]
 let purposeData = [
+    { label: '不限', value: '不限' },
     { label: '普通住宅', value: '普通住宅' },
     { label: '商业', value: '商业' },
     { label: '别墅', value: '别墅' },
@@ -77,6 +85,7 @@ let purposeData = [
     { label: '其他', value: '其他' },
 ]
 let ownershipData = [
+    { label: '不限', value: '不限' },
     { label: '商品房', value: '商品房' },
     { label: '公房', value: '公房' },
     { label: '经济房', value: '经济房' },
@@ -95,9 +104,19 @@ class Index1 extends React.Component {
     }
     componentDidMount() {
         const { dispatch } = this.props
+        const { home_ref } = this.refs
+        console.log(this.refs)
         // dispatch(get_house_list('?offset=0&limit=10'))
         setTimeout(()=>{
-            dispatch(change('home_form' , 'aaa' , 0))
+            home_ref.changeValues({
+                area: '不限',
+                orientation: '不限',
+                floor: '不限',
+                tower_age: '不限',
+                decoration: '不限',
+                purpose: '不限',
+                ownership: '不限',
+            })
         })
     }
     onChange = (value, files) => {
@@ -120,8 +139,13 @@ class Index1 extends React.Component {
         let parmas = []
         parmas.push("?offset=" + values.offset);
         parmas.push("&limit=" + values.limit);
-        if(values.area)parmas.push("&area=" + values.area);
-        if(values.orientation)parmas.push("&orientation=" + values.orientation);
+        if(values.area&&values.area!='不限')parmas.push("&area=" + values.area);
+        if(values.orientation&&values.orientation!='不限')parmas.push("&orientation=" + values.orientation);
+        if(values.floor&&values.floor!='不限')parmas.push("&floor=" + values.floor);
+        if(values.tower_age&&values.tower_age!='不限')parmas.push("&tower_age=" + values.tower_age);
+        if(values.decoration&&values.decoration!='不限')parmas.push("&decoration=" + values.decoration);
+        if(values.purpose&&values.purpose!='不限')parmas.push("&purpose=" + values.purpose);
+        if(values.ownership&&values.ownership!='不限')parmas.push("&ownership=" + values.ownership);
 
         dispatch(get_house_list(parmas.join('')))
     }
@@ -139,51 +163,32 @@ class Index1 extends React.Component {
                     <div className={`search`}>
                         <Row>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`位置`} name='area' type='radio' options={areaData} placeholder={'请选择位置'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`位置`} name='area' defaultValues={'不限'} type='radio' options={areaData} placeholder={'请选择位置'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`售价`} name='rate' type='radio' options={rateData} placeholder={'请选择售价'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`售价`} name='rate' defaultValues={'不限'} type='radio' options={rateData} placeholder={'请选择售价'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`面积`} name='acreage' type='radio' options={acreageData} placeholder={'请选择面积'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`面积`} name='acreage' defaultValues={'不限'} type='radio' options={acreageData} placeholder={'请选择面积'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`朝向`} name='orientation' type='radio' options={orientationData} placeholder={'请选择朝向'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`朝向`} name='orientation' defaultValues={'不限'} type='radio' options={orientationData} placeholder={'请选择朝向'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`楼层`} name='floor' type='radio' options={floorData} placeholder={'请选择楼层'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`楼层`} name='floor' defaultValues={'不限'} type='radio' options={floorData} placeholder={'请选择楼层'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`楼龄`} name='tower_age' type='radio' options={tower_age_Data} placeholder={'请选择楼龄'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`楼龄`} name='tower_age' defaultValues={'不限'} type='radio' options={tower_age_Data} placeholder={'请选择楼龄'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`装修`} name='decoration' type='radio' options={decorationData} placeholder={'请选择装修'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`装修`} name='decoration' defaultValues={'不限'} type='radio' options={decorationData} placeholder={'请选择装修'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`用途`} name='purpose' type='radio' options={purposeData} placeholder={'请选择用途'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`用途`} name='purpose' defaultValues={'不限'} type='radio' options={purposeData} placeholder={'请选择用途'} />
                             </Col>
                             <Col>
-                                <div style={{ height: '30px' }}>
-                                    <InputField formItemLayout={formItemLayout} label={`权属`} name='ownership' type='radio' options={ownershipData} placeholder={'请选择权属'} />
-                                </div>
+                                <InputField formItemLayout={formItemLayout} label={`权属`} name='ownership' defaultValues={'不限'} type='radio' options={ownershipData} placeholder={'请选择权属'} />
                             </Col>
-
                         </Row>
                     </div>
                     <div className={`housing_information_list`}>
@@ -200,8 +205,8 @@ class Index1 extends React.Component {
                                                 <div>
                                                     <p title={`${str.length > 18 ? str : ''}`}>{str}</p>
                                                     <div>地址</div>
-                                                    <div><img src={`${__dirname}img/icon/house.png`} />具体信息</div>
-                                                    <div><img src={`${__dirname}img/icon/time.png`} />发布时间</div>
+                                                    <div><img src={`${__dirname}img/icon/house.png`} />{item.area} | {item.orientation} | {item.floor} | {item.decoration} | {item.ownership}</div>
+                                                    <div><img src={`${__dirname}img/icon/time.png`} />{ item.creat_time > 0 ? moment(item.creat_time * 1000).format("YYYY/MM/DD") : '' }</div>
                                                 </div>
                                                 <div>
                                                     <div className={`price`}>252 万</div>
