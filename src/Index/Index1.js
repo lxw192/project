@@ -7,10 +7,13 @@ import InputField from '../components/InputField/InputField'
 import { reduxForm, submit, getFormValues, Form, formValueSelector, change } from 'redux-form'
 import PaginationWrop from '../components/PaginationWrop/PaginationWrop'
 import SearchForm from '../components/SearchForm/SearchForm'
-import { Tabs, Button, Icon, Col, Row } from 'antd';
+import { Tabs, Button, Icon, Col, Row ,Modal} from 'antd';
 import { connect } from 'react-redux'
 import $ from 'jquery'
 import { get_house_list, creat_house_list } from './../store/action/index'
+import { required , number , mobile , password } from '../components/InputField/validate'
+// import { UploadWrap } from '../components/Upload/UploadWrap'
+import UploadWrap from '../components/Upload/UploadWrap'
 let areaData = [
     { label: '不限', value: '不限' },
     { label: '通州', value: '通州' },
@@ -95,6 +98,10 @@ const formItemLayout = {
     labelCol: { span: 1 },
     wrapperCol: { span: 23 },
 };
+const _formItemLayout = { 
+    labelCol: { span: 5 }, 
+    wrapperCol: { span: 18 },
+}
 class Index1 extends React.Component {
     constructor(props) {
         super(props)
@@ -146,8 +153,63 @@ class Index1 extends React.Component {
         if(values.decoration&&values.decoration!='不限')parmas.push("&decoration=" + values.decoration);
         if(values.purpose&&values.purpose!='不限')parmas.push("&purpose=" + values.purpose);
         if(values.ownership&&values.ownership!='不限')parmas.push("&ownership=" + values.ownership);
+        if(values.keysearch)parmas.push("&keysearch=" + values.keysearch);
 
         dispatch(get_house_list(parmas.join('')))
+    }
+    search=()=>{
+        const { home_ref } = this.refs
+        home_ref.searchGrid()
+    }
+    addHouse=()=>{
+        const { change } = this.props
+        change("modalLock" , true)
+    }
+    handleCancel=()=>{
+        const { change } = this.props
+        change("modalLock" , false)
+    }
+    handleOk=()=>{
+
+    }
+    renderModal(){
+        const { modalLock } = this.props
+        return (
+            <Modal title="添加房源" visible={modalLock} onCancel={this.handleCancel} onOK={this.handleOk} okText="确认" cancelText="取消">
+                <Row>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`位置`} name='area' defaultValues={'不限'} validate={[required]} type='select' options={areaData} placeholder={'请选择位置'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`售价`} name='rate' defaultValues={'不限'} validate={[required]} type='select' options={rateData} placeholder={'请选择售价'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`面积`} name='acreage' defaultValues={'不限'} validate={[required]} type='select' options={acreageData} placeholder={'请选择面积'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`朝向`} name='orientation' defaultValues={'不限'} validate={[required]} type='select' options={orientationData} placeholder={'请选择朝向'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`楼层`} name='floor' defaultValues={'不限'} validate={[required]} type='select' options={floorData} placeholder={'请选择楼层'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`楼龄`} name='tower_age' defaultValues={'不限'} validate={[required]} type='select' options={tower_age_Data} placeholder={'请选择楼龄'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`装修`} name='decoration' defaultValues={'不限'} validate={[required]} type='select' options={decorationData} placeholder={'请选择装修'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`用途`} name='purpose' defaultValues={'不限'} validate={[required]} type='select' options={purposeData} placeholder={'请选择用途'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`权属`} name='ownership' defaultValues={'不限'} validate={[required]} type='select' options={ownershipData} placeholder={'请选择权属'} />
+                    </Col>
+                    <Col>
+                        <UploadWrap></UploadWrap>
+                    </Col>
+                </Row>
+            </Modal>
+        )
     }
     render() {
         const { house_list } = this.props;
@@ -161,6 +223,14 @@ class Index1 extends React.Component {
                {url ? <img src={`./img/${url}`} /> : null} */}
                 <SearchForm formName='home_form' enableKeys={['keysearch']} search={this.searchGrid} ref="home_ref">
                     <div className={`search`}>
+                        <div >
+                            <div className={`search_box`}>
+                                <InputField formItemLayout={_formItemLayout} onSearch={this.search} inputStyle={{width:'300px'}} label={`标题`} name='keysearch' type='search' placeholder={'请输入'} />
+                            </div>
+                            <div className={`search_box` , 'search_btn'}>
+                                <Button type='primary' onClick={this.addHouse}>新增</Button>
+                            </div>
+                        </div>
                         <Row>
                             <Col>
                                 <InputField formItemLayout={formItemLayout} label={`位置`} name='area' defaultValues={'不限'} type='radio' options={areaData} placeholder={'请选择位置'} />
@@ -221,7 +291,7 @@ class Index1 extends React.Component {
                         <PaginationWrop formName='home_form' onChange={this.searchGrid}></PaginationWrop>
                     </div>
                 </SearchForm>
-
+                {this.renderModal()}
             </div >
         )
     }
@@ -241,7 +311,8 @@ const mapState = (state) => {
     const { home: { house_list } } = state
     return {
         house_list,
-        url: selector(state, 'url')
+        url: selector(state, 'url'),
+        modalLock: selector(state, 'modalLock'),
     }
 };
 

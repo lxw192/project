@@ -1,9 +1,9 @@
 import React from 'react';
-import { Input, Form ,Checkbox , Radio } from 'antd';
+import { Input, Form ,Checkbox , Radio , Select } from 'antd';
 import { Field } from 'redux-form';
 import { required, maxLength, number, email, mobile, startCharacter, isTelphone, } from './validate';
-
-
+const { Option } = Select;
+const { Search } = Input;
 const FormItem = Form.Item;
 const _formItemLayouts = {
     labelCol: { span: 6 },
@@ -21,6 +21,8 @@ class InputField extends React.Component {
     static defaultProps = {
         options :[],
         defaultValue :[],
+        maxLength:200,
+        inputStyle:{width:200},
       }
     componentWillReceiveProps(nextProps){
         const { needReload } = nextProps
@@ -55,7 +57,7 @@ class InputField extends React.Component {
         }
   }
     renderField = (field) => {
-        const { formItemLayout, placeholder, allowClear, disabled, type, inputStyle, label, validate, formFiled , options ,defaultValue , defaultValues  } = this.props
+        const { formItemLayout, placeholder, allowClear, disabled, type, inputStyle, label, validate, formFiled , options ,defaultValue , defaultValues ,maxLength , dropdownMatchSelectWidth=false } = this.props
         console.log(type)
 
         if (type == 'checkbox') {
@@ -70,6 +72,59 @@ class InputField extends React.Component {
                             this.props.onChange ? this.props.onChange(value, field) : field.input.onChange(value);
                         }} />
                     </FormItem>
+            )
+        } else if (type == 'search') {
+            return (
+                    <FormItem
+                        {...(formItemLayout ? formItemLayout : _formItemLayouts)}
+                        label={label}
+                        required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
+                        help={this.showErrMessage(field)}
+                        validateStatus={this.validateStatus(field)}  >
+                       <Search {...field.input} placeholder={placeholder}  maxLength={maxLength} style={inputStyle} onSearch={this.props.onSearch} enterButton />
+                    </FormItem>
+            )
+        } else if (type == 'select') {
+            return (
+                <FormItem
+                    {...(formItemLayout ? formItemLayout : _formItemLayouts)}
+                    label={label}
+                    required={formFiled ? formFiled.is_required : this.validateRequired(validate)}
+                    help={this.showErrMessage(field)}
+                    validateStatus={this.validateStatus(field)}  >
+                    <Select {...field.input} showSearch style={inputStyle} placeholder={placeholder} optionFilterProp="children"
+                    dropdownMatchSelectWidth={dropdownMatchSelectWidth}
+                        onChange={(value) => {
+                            if (this.props.onChange) {
+                                if (!value) {
+                                    this.props.onChange('', field);
+                                } else {
+                                    this.props.onChange(value, field);
+                                }
+                            } else {
+                                if (!value)
+                                    if (value == 0) {
+                                        field.input.onChange('0');
+                                    } else {
+                                        field.input.onChange('');
+                                    }
+                                else
+                                    field.input.onChange(value);
+                            }
+                        }} onSearch={this.props.onSelect}
+                        filterOption={(input, option) =>
+                            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }>
+                        {
+                            options&&options.length > 0 &&options.map((item , index)=>{
+                                return (
+                                    <Option value={item.label}>{item.value}</Option>
+                                )
+                            })
+                        }
+                        
+                    </Select>
+                </FormItem>
             )
         } else if(type == 'radio'){
             console.log(defaultValues , options)

@@ -66,7 +66,7 @@ class SearchForm extends React.Component {
       limit: myValues.limit,
       total_count: 0,
     });
-    console.log(JSON.stringify(beforeMyValues) != JSON.stringify(afterMyValues))
+    console.log(JSON.stringify(beforeMyValues) != JSON.stringify(afterMyValues) , afterMyValues)
     if (JSON.stringify(beforeMyValues) != JSON.stringify(afterMyValues)) {
       let reload = true;
       enableKeys.map((key, i) => {
@@ -171,23 +171,15 @@ export default class SearchFormFactory extends React.Component {
   componentWillUnmount() {
   }
   searchGrid() {
-    console.log(this , 'this.refs',this.refs)
-    const { mySearchList } = this.refs;
-    if (mySearchList.getWrappedInstance().refs && mySearchList.getWrappedInstance().refs.wrapped) {
-      mySearchList.getWrappedInstance().refs.wrapped.refs.wrappedInstance.refs.wrapped.searchList();
-    } else {
-      mySearchList.getWrappedInstance().ref.getWrappedInstance().wrapped.searchList();
+    const { mySearchList } = this.refs; 
+    if(mySearchList.refs&&mySearchList.refs.current&&mySearchList.refs.current.wrapped.current){
+      mySearchList.refs.current.wrapped.current.searchList()
+    }else if(mySearchList.ref&&mySearchList.ref.current&&mySearchList.ref.current.wrapped.current){
+      mySearchList.ref.current.wrapped.current.searchList()
     }
   }
   changeValues(values) {
-    console.log(this , 'this.refs',this.refs)
     const { mySearchList } = this.refs;
-    console.log('mySearchList', mySearchList.wrappedInstance.changeValues );
-    // if (mySearchList.wrappedInstance().refs && mySearchList.getWrappedInstance().refs.wrapped) {
-    //   mySearchList.wrappedInstance().refs.wrapped.refs.wrappedInstance.refs.wrapped.changeValues(values);
-    // } else {
-    //   mySearchList.wrappedInstance().ref.getWrappedInstance().wrapped.changeValues(values);
-    // }
     mySearchList.wrappedInstance.changeValues(values)
   }
   render() {
