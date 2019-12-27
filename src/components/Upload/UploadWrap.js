@@ -17,58 +17,20 @@ class UploadWrap extends React.Component {
     beforeUpload=(file, fileList)=>{
         console.log('file, fileList' , file, fileList)
     }
-    handleUpload = () => {
-        const { fileList } = this.state;
-        const formData = new FormData();
-        fileList.forEach(file => {
-          formData.append('avatar', file);
-        });
-    
-        this.setState({
-          uploading: true,
-        });
-
-
-        const { dispatch } = this.props
-        dispatch(file_upload(formData))
-    
-        // You can use any AJAX library you like
-        // reqwest({
-        //   url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        //   method: 'post',
-        //   processData: false,
-        //   data: formData,
-        //   success: () => {
-        //     this.setState({
-        //       fileList: [],
-        //       uploading: false,
-        //     });
-        //     message.success('upload successfully.');
-        //   },
-        //   error: () => {
-        //     this.setState({
-        //       uploading: false,
-        //     });
-        //     message.error('upload failed.');
-        //   },
-        // });
-      };
-      onChange=(event)=>{
-        console.log(event.file , event.fileList , event.file.status)
-      }
-    //   onChanges = (value, files) => {
-    //     const { dispatch } = this.props
-
-    //     let file = value.target.files[0];
-    //     console.log('file', file)
-    //     let formData = new FormData();
-    //     formData.append('avatar', file);
-    //     if (file.name) {
-    //         dispatch(file_upload(formData))
-    //     }
-    // }
+  handleUpload = (file) => {
+    const fileList = [file]
+    const { dispatch } = this.props
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('avatar', file);
+    });
+    dispatch(file_upload(formData))
+  };
+  onChange = (event) => {
+    event.file.name && event.fileList && event.fileList.length > 0 && this.handleUpload(event.file)
+  }
     render() {
-        const { uploading, fileList } = this.state;
+        const { fileList } = this.state;
         const props = {
             onRemove: file => {
               this.setState(state => {
@@ -90,23 +52,13 @@ class UploadWrap extends React.Component {
           }
       
         return (
-            <div>
-              {/* <input id="file" type="file" name="image" size="50" onChange={this.onChanges}/> */}
-                <Upload {...props} onChange={this.onChange}>
-                    <Button>
-                        <Icon type="upload" /> Select File
+          <div>
+            <Upload {...props} onChange={this.onChange}>
+              <Button>
+                <Icon type="upload" /> 选择文件
               </Button>
-                </Upload>
-                <Button
-                    type="primary"
-                    onClick={this.handleUpload}
-                    disabled={fileList.length === 0}
-                    loading={uploading}
-                    style={{ marginTop: 16 }}
-                >
-                    {uploading ? 'Uploading' : 'Start Upload'}
-                </Button>
-            </div>
+            </Upload>
+          </div>
         )
     }
 }

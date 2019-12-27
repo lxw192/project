@@ -257,7 +257,6 @@ class Index1 extends React.Component {
                                         <Col key={index} span={12}>
                                             <div className={'list'}>
                                                 <div>
-                                                    {console.log(`${__dirname}img/${item.img_url}`)}
                                                     <img src={`img/${item.img_url}`} alt="" />
                                                 </div>
                                                 <div>
