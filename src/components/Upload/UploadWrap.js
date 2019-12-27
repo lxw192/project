@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 // import { file_upload } from '../store/action/menu'
 import { Tabs, Button, Icon, Col, Row, Modal, Upload } from 'antd';
 import { connect } from 'react-redux'
-
+import { file_upload } from '../../store/action/menu'
 class UploadWrap extends React.Component {
     constructor(props) {
         super(props)
@@ -21,12 +21,16 @@ class UploadWrap extends React.Component {
         const { fileList } = this.state;
         const formData = new FormData();
         fileList.forEach(file => {
-          formData.append('files[]', file);
+          formData.append('avatar', file);
         });
     
         this.setState({
           uploading: true,
         });
+
+
+        const { dispatch } = this.props
+        dispatch(file_upload(formData))
     
         // You can use any AJAX library you like
         // reqwest({
@@ -50,8 +54,19 @@ class UploadWrap extends React.Component {
         // });
       };
       onChange=(event)=>{
-        console.log(event)
+        console.log(event.file , event.fileList , event.file.status)
       }
+    //   onChanges = (value, files) => {
+    //     const { dispatch } = this.props
+
+    //     let file = value.target.files[0];
+    //     console.log('file', file)
+    //     let formData = new FormData();
+    //     formData.append('avatar', file);
+    //     if (file.name) {
+    //         dispatch(file_upload(formData))
+    //     }
+    // }
     render() {
         const { uploading, fileList } = this.state;
         const props = {
@@ -76,6 +91,7 @@ class UploadWrap extends React.Component {
       
         return (
             <div>
+              {/* <input id="file" type="file" name="image" size="50" onChange={this.onChanges}/> */}
                 <Upload {...props} onChange={this.onChange}>
                     <Button>
                         <Icon type="upload" /> Select File
@@ -95,4 +111,9 @@ class UploadWrap extends React.Component {
     }
 }
 
-export default UploadWrap
+
+const mapState = (state) => {
+  return {
+  }
+};
+export default connect(mapState)(UploadWrap)

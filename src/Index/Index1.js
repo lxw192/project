@@ -126,17 +126,7 @@ class Index1 extends React.Component {
             })
         })
     }
-    onChange = (value, files) => {
-        const { dispatch } = this.props
-
-        let file = value.target.files[0];
-        console.log('file', file)
-        let formData = new FormData();
-        formData.append('avatar', file);
-        if (file.name) {
-            dispatch(file_upload(formData))
-        }
-    }
+   
     fileCallBack = () => {
 
     }
@@ -219,8 +209,6 @@ class Index1 extends React.Component {
         const { url } = this.props
         return (
             <div className={`housing_information`}>
-                {/* <input id="file" type="file" name="image" size="50" onChange={this.onChange}/>
-               {url ? <img src={`./img/${url}`} /> : null} */}
                 <SearchForm formName='home_form' enableKeys={['keysearch']} search={this.searchGrid} ref="home_ref">
                     <div className={`search`}>
                         <div >
