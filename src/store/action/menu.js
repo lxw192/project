@@ -27,6 +27,7 @@ export function file_upload(values){
     return dispatch =>{
         return  axios.post(`/uploader` , values ).then(data => {
             dispatch(change('home','url' , data.data.url))
+            return data
         })
     }
-} 
+}

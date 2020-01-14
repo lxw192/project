@@ -1,4 +1,5 @@
 const express = require('express')
+const moment = require('moment')
 const mongoose = require('mongoose')
 var multer = require('multer');
 var path = require("path")
@@ -25,8 +26,20 @@ const Customer = mongoose.model('customer', new mongoose.Schema({
 
 //房子列表 表
 const House_list = mongoose.model('house_list', new mongoose.Schema({
-    price: { type: Number, required: true },
-    univalence: { type: Number, required: true },
+    price: { type: String, required: true },
+    univalence: { type: String, required: true },
+    area: { type: String, required: true },
+    rate: { type: String, required: true },
+    acreage: { type: String, required: true },
+    floor: { type: String, required: true },
+    tower_age: { type: String, required: true },
+    decoration: { type: String, required: true },
+    purpose: { type: String, required: true },
+    ownership: { type: String, required: true },
+    orientation: { type: String, required: true },
+    img_url: { type: String, required: true },
+    title_name: { type: String, required: true },
+    creat_time: { type: Number, required: true , default:moment().unix() },
 }))
 
 
@@ -222,16 +235,14 @@ app.get('/house_list', (req, res) => {
       res.send(data)
   })
 })
-app.get('/creat_house_list', (req, res) => {
-    House_list.create({ 'price': 200, 'univalence': 10 }, (err, doc) => {
-        if (!err) {
-            console.log(doc)
-            res.send({})
+app.post('/house_list/creat', (req, res) => {
+    House_list.create(req.body, (err , doc)=>{
+        console.log(err , doc)
+        if(!err){
+            res.send({code:200,message:'添加成功'})
         }
     })
-
 })
-
 
 
 //监听事件 及 监听端口

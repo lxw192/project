@@ -7,11 +7,11 @@ import InputField from '../components/InputField/InputField'
 import { reduxForm, submit, getFormValues, Form, formValueSelector, change } from 'redux-form'
 import PaginationWrop from '../components/PaginationWrop/PaginationWrop'
 import SearchForm from '../components/SearchForm/SearchForm'
-import { Tabs, Button, Icon, Col, Row ,Modal} from 'antd';
+import { Tabs, Button, Icon, Col, Row, Modal } from 'antd';
 import { connect } from 'react-redux'
 import $ from 'jquery'
 import { get_house_list, creat_house_list } from './../store/action/index'
-import { required , number , mobile , password } from '../components/InputField/validate'
+import { required, number, mobile, password } from '../components/InputField/validate'
 // import { UploadWrap } from '../components/Upload/UploadWrap'
 import UploadWrap from '../components/Upload/UploadWrap'
 let areaData = [
@@ -33,23 +33,23 @@ let areaData = [
 ]
 let rateData = [
     { label: '不限', value: '不限' },
-    { label: '40~70万', value: '40~70' },
-    { label: '70~100万', value: '70~100' },
-    { label: '100~130万', value: '100~130' },
-    { label: '130~160万', value: '130~160' },
-    { label: '160~190万', value: '160~190' },
-    { label: '220~250万', value: '220~250' },
-    { label: '250万以上', value: '250+' },
+    { label: '40~70', value: '40~70万' },
+    { label: '70~100', value: '70~100万' },
+    { label: '100~130', value: '100~130万' },
+    { label: '130~160', value: '130~160万' },
+    { label: '160~190', value: '160~190万' },
+    { label: '220~250', value: '220~250万' },
+    { label: '250', value: '250万以上' },
 ]
 let acreageData = [
     { label: '不限', value: '不限' },
-    { label: '50~70㎡', value: '50~70' },
-    { label: '70~90㎡', value: '70~90' },
-    { label: '90~110㎡', value: '90~110' },
-    { label: '110~130㎡', value: '110~130' },
-    { label: '130~150㎡', value: '130~150' },
-    { label: '150~180㎡', value: '150~180' },
-    { label: '180㎡以上', value: '180+' },
+    { label: '50~70', value: '50~70㎡' },
+    { label: '70~90', value: '70~90㎡' },
+    { label: '90~110', value: '90~110㎡' },
+    { label: '110~130', value: '110~130㎡' },
+    { label: '130~150', value: '130~150㎡' },
+    { label: '150~180', value: '150~180㎡' },
+    { label: '180', value: '180㎡以上' },
 ]
 let orientationData = [
     { label: '不限', value: '不限' },
@@ -67,11 +67,11 @@ let floorData = [
 ]
 let tower_age_Data = [
     { label: '不限', value: '不限' },
-    { label: '5年', value: '5' },
-    { label: '10年', value: '10' },
-    { label: '15年', value: '15' },
-    { label: '20年', value: '20' },
-    { label: '20以上', value: '20+' },
+    { label: '5', value: '5年' },
+    { label: '10', value: '10年' },
+    { label: '15', value: '15年' },
+    { label: '20', value: '20年' },
+    { label: '30', value: '30年及以上' },
 ]
 let decorationData = [
     { label: '不限', value: '不限' },
@@ -98,8 +98,8 @@ const formItemLayout = {
     labelCol: { span: 1 },
     wrapperCol: { span: 23 },
 };
-const _formItemLayout = { 
-    labelCol: { span: 5 }, 
+const _formItemLayout = {
+    labelCol: { span: 5 },
     wrapperCol: { span: 18 },
 }
 class Index1 extends React.Component {
@@ -114,7 +114,7 @@ class Index1 extends React.Component {
         const { home_ref } = this.refs
         console.log(this.refs)
         // dispatch(get_house_list('?offset=0&limit=10'))
-        setTimeout(()=>{
+        setTimeout(() => {
             home_ref.changeValues({
                 area: '不限',
                 orientation: '不限',
@@ -126,7 +126,7 @@ class Index1 extends React.Component {
             })
         })
     }
-   
+
     fileCallBack = () => {
 
     }
@@ -136,37 +136,54 @@ class Index1 extends React.Component {
         let parmas = []
         parmas.push("?offset=" + values.offset);
         parmas.push("&limit=" + values.limit);
-        if(values.area&&values.area!='不限')parmas.push("&area=" + values.area);
-        if(values.orientation&&values.orientation!='不限')parmas.push("&orientation=" + values.orientation);
-        if(values.floor&&values.floor!='不限')parmas.push("&floor=" + values.floor);
-        if(values.tower_age&&values.tower_age!='不限')parmas.push("&tower_age=" + values.tower_age);
-        if(values.decoration&&values.decoration!='不限')parmas.push("&decoration=" + values.decoration);
-        if(values.purpose&&values.purpose!='不限')parmas.push("&purpose=" + values.purpose);
-        if(values.ownership&&values.ownership!='不限')parmas.push("&ownership=" + values.ownership);
-        if(values.keysearch)parmas.push("&keysearch=" + values.keysearch);
+        if (values.area && values.area != '不限') parmas.push("&area=" + values.area);
+        if (values.orientation && values.orientation != '不限') parmas.push("&orientation=" + values.orientation);
+        if (values.floor && values.floor != '不限') parmas.push("&floor=" + values.floor);
+        if (values.tower_age && values.tower_age != '不限') parmas.push("&tower_age=" + values.tower_age);
+        if (values.decoration && values.decoration != '不限') parmas.push("&decoration=" + values.decoration);
+        if (values.purpose && values.purpose != '不限') parmas.push("&purpose=" + values.purpose);
+        if (values.ownership && values.ownership != '不限') parmas.push("&ownership=" + values.ownership);
+        if (values.keysearch) parmas.push("&keysearch=" + values.keysearch);
 
         dispatch(get_house_list(parmas.join('')))
     }
-    search=()=>{
+    search = () => {
         const { home_ref } = this.refs
         home_ref.searchGrid()
     }
-    addHouse=()=>{
+    addHouse = () => {
         const { change } = this.props
-        change("modalLock" , true)
+        change("modalLock", true)
     }
-    handleCancel=()=>{
+    handleCancel = () => {
         const { change } = this.props
-        change("modalLock" , false)
+        change("modalLock", false)
     }
-    handleOk=()=>{
-
+    handleOk = () => {
+        console.log("11111111111111111")
+        const { dispatch , submit } = this.props
+        dispatch(submit())
     }
-    renderModal(){
+    endCallBack = (data) => {
+        const { change } = this.props
+        if(data.code == 200){
+            change('img_url' , data.url)
+        }
+    }
+    renderModal() {
         const { modalLock } = this.props
         return (
-            <Modal title="添加房源" visible={modalLock} onCancel={this.handleCancel} onOK={this.handleOk} okText="确认" cancelText="取消">
+            <Modal title="添加房源" visible={modalLock} onCancel={this.handleCancel} onOk={this.handleOk} okText="确认" cancelText="取消">
                 <Row>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`标题`} name='title_name'  validate={[required]} type='text' options={areaData} placeholder={'请输入标题'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`总价`} name='price'  validate={[required]} type='text' options={areaData} placeholder={'请输入总价'} />
+                    </Col>
+                    <Col>
+                        <InputField formItemLayout={_formItemLayout} label={`单价`} name='univalence' validate={[required]} type='text' options={areaData} placeholder={'请输入单价'} />
+                    </Col>
                     <Col>
                         <InputField formItemLayout={_formItemLayout} label={`位置`} name='area' defaultValues={'不限'} validate={[required]} type='select' options={areaData} placeholder={'请选择位置'} />
                     </Col>
@@ -195,7 +212,7 @@ class Index1 extends React.Component {
                         <InputField formItemLayout={_formItemLayout} label={`权属`} name='ownership' defaultValues={'不限'} validate={[required]} type='select' options={ownershipData} placeholder={'请选择权属'} />
                     </Col>
                     <Col>
-                        <UploadWrap></UploadWrap>
+                        <UploadWrap endCallBack={this.endCallBack}></UploadWrap>
                     </Col>
                 </Row>
             </Modal>
@@ -203,9 +220,7 @@ class Index1 extends React.Component {
     }
     render() {
         const { house_list } = this.props;
-        console.log(house_list)
         let str = '紫绶园 东南不临街两居室 精装自住装修'
-        console.log(moment('qqq', 'HH:mm').isValid())
         const { url } = this.props
         return (
             <div className={`housing_information`}>
@@ -213,9 +228,9 @@ class Index1 extends React.Component {
                     <div className={`search`}>
                         <div >
                             <div className={`search_box`}>
-                                <InputField formItemLayout={_formItemLayout} onSearch={this.search} inputStyle={{width:'300px'}} label={`标题`} name='keysearch' type='search' placeholder={'请输入'} />
+                                <InputField formItemLayout={_formItemLayout} onSearch={this.search} inputStyle={{ width: '300px' }} label={`标题`} name='keysearch' type='search' placeholder={'请输入'} />
                             </div>
-                            <div className={`search_box` , 'search_btn'}>
+                            <div className={`search_box` } className={ 'search_btn' }>
                                 <Button type='primary' onClick={this.addHouse}>新增</Button>
                             </div>
                         </div>
@@ -260,10 +275,10 @@ class Index1 extends React.Component {
                                                     <img src={`img/${item.img_url}`} alt="" />
                                                 </div>
                                                 <div>
-                                                    <p title={`${str.length > 18 ? str : ''}`}>{str}</p>
+                                                    <p className={'title'} title={`${str.length > 18 ? str : ''}`}>{item.title_name}</p>
                                                     <div>地址</div>
                                                     <div><img src={`${__dirname}img/icon/house.png`} />{item.area} | {item.orientation} | {item.floor} | {item.decoration} | {item.ownership}</div>
-                                                    <div><img src={`${__dirname}img/icon/time.png`} />{ item.creat_time > 0 ? moment(item.creat_time * 1000).format("YYYY/MM/DD") : '' }</div>
+                                                    <div><img src={`${__dirname}img/icon/time.png`} />{item.creat_time > 0 ? moment(item.creat_time * 1000).format("YYYY/MM/DD") : ''}</div>
                                                 </div>
                                                 <div>
                                                     <div className={`price`}>252 万</div>
@@ -287,6 +302,13 @@ class Index1 extends React.Component {
 
 const submitForm = (values, dispatch, props) => {
     console.log(values, dispatch, props)
+    dispatch(creat_house_list(values)).then(data=>{
+        if(data.code&&data.code > 300){
+
+        }else{
+            props.change("modalLock", false)
+        }
+    })
 }
 const selector = formValueSelector('home')
 Index1 = reduxForm({

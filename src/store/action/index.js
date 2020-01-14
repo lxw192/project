@@ -16,7 +16,13 @@ export function get_house_list(values){
 }
 export function creat_house_list(values){
     return dispatch =>{
-        return axios.get('/creat_house_list').then(data => {
+        return axios.post( '/house_list/creat' , values ).then(data => {
+            if(data.code&&data.code > 300){
+                
+            }else{
+                dispatch(submit('home_form'))
+            }
+            return data
         })
     }
 }

@@ -12,6 +12,12 @@ class UploadWrap extends React.Component {
             uploading: false,
           };
     }
+
+    static defaultProps = {
+      endCallBack: () => { },
+    }
+
+
     componentDidMount() {
     }
     beforeUpload=(file, fileList)=>{
@@ -24,7 +30,13 @@ class UploadWrap extends React.Component {
     fileList.forEach(file => {
       formData.append('avatar', file);
     });
-    dispatch(file_upload(formData))
+    dispatch(file_upload(formData)).then(data=>{
+      if(data&&data.data&&data.data.url){
+        this.props.endCallBack( { code:200 , url : data.data.url } )
+      }else{
+        this.props.endCallBack( { code:400 } )
+      }
+    })
   };
   onChange = (event) => {
     event.file.name && event.fileList && event.fileList.length > 0 && this.handleUpload(event.file)
