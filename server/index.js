@@ -60,7 +60,7 @@ async function getPostData(req) {
 
 
 
-var upload = multer({ dest: path.join(__dirname, '/../src/static/img/') }) // 文件储存路径
+var upload = multer({ dest: path.join(__dirname, '/../src/static/house_img/') }) // 文件储存路径
 // var upload = multer({ dest: path.join(__dirname, '/../../img/') }) // 文件储存路径
 
 app.post('/uploader', upload.single('avatar'), function (req, res, next) {

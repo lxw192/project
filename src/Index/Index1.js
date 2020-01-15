@@ -272,7 +272,7 @@ class Index1 extends React.Component {
                                         <Col key={index} span={12}>
                                             <div className={'list'}>
                                                 <div>
-                                                    <img src={`img/${item.img_url}`} alt="" />
+                                                    <img src={`house_img/${item.img_url}`} alt="" />
                                                 </div>
                                                 <div>
                                                     <p className={'title'} title={`${str.length > 18 ? str : ''}`}>{item.title_name}</p>
