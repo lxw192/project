@@ -284,6 +284,7 @@ class Index1 extends React.Component {
                                                     <div className={`price`}>252 万</div>
                                                     <div className={`univalence`}>单价59986元/平米</div>
                                                 </div>
+                                                <span className={`cross`}>×</span>    
                                             </div>
                                         </Col>
                                     )

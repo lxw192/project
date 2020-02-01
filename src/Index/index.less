@@ -19,11 +19,40 @@
         margin: 0 20px;
         padding:20px;
         margin-bottom: 20px;
+        position: relative;
+        span.cross{
+            display: inline-block;
+            font-size: 30px;
+            position: absolute;
+            top:-10px;
+            right: 10px;
+            width: 0px;
+            height: 0px;
+            overflow: hidden;
+        }
         &:hover{
             border:1px solid #47b3e3;
             box-shadow: 0 0 10px 2px #eee;
+            transition: 1s all;
             .title{
                     color:#47b3e3;
+            }
+            span.cross{
+                display: inline-block;
+                cursor: pointer;
+                font-size: 30px;
+                color:red;
+                position: absolute;
+                top:7px;
+                right: 10px;
+                width: 20px;
+                height: 20px;
+                line-height: 15px;
+                animation:turn .5s linear;
+                @keyframes turn{
+                    0%{-webkit-transform:rotate(0deg);}
+                    100%{-webkit-transform:rotate(360deg);}
+                }
             }
         }
         
